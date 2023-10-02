@@ -21,11 +21,10 @@ class Class(BaseModel):
     instructor: Instructor | None = None
 
 class Student(BaseModel):
-    id: int
+    id: str
     name: str
 
 class Waitlist(BaseModel):
     class_id: int
     student_id: int
     placement: int
-

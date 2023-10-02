@@ -1,87 +1,126 @@
 import sqlite3
-from schemas import Class, Student, Registrar
+from schemas import Class, Student, Department, Instructor#, Registrar
 
 sample_classes = [
     Class(
-        department="CPSC",
+        id=1,
+        department= Department(id=1, name="CPSC"),
         course_code="449",
         section_number="001",
         name="Web Back-End Engineering",
-        instructor="Kennyt Avery",
-        current_enrollment=25,
-        max_enrollment=30,
+        instructor= Instructor(id=1, name="Kennyt Avery"),
+        current_enroll=25,
+        max_enroll=30,
     ),
      Class(
-        department="CPSC",
+        id=2,
+        department= Department(id=1, name="CPSC"),
         course_code="349",
         section_number="233430",
         name="Web Front-End Engineering",
-        instructor="Kennyt Avery",
-        current_enrollment=25,
-        max_enrollment=30,
-    ),    Class(
-        department="CPSC",
+        instructor= Instructor(id=1, name="Kennyt Avery"),
+        current_enroll=25,
+        max_enroll=30,
+    ),
+    Class(
+        id=3,
+        department= Department(id=1, name="CPSC"),
         course_code="120",
         section_number="1344",
         name="Introduction to Computer Science",
-        instructor="Prof. Smith",
-        current_enrollment=45,
-        max_enrollment=50,
+        instructor= Instructor(id=2, name="Prof. Smith"),
+        current_enroll=45,
+        max_enroll=50,
     ),
     Class(
-        department="MATH",
+        id=4,
+        department= Department(id=2, name="MATH"),
         course_code="150",
         section_number="002",
         name="Calculus I",
-        instructor="Prof. Johnson",
-        current_enrollment=30,
-        max_enrollment=40,
+        instructor=Instructor(id=3, name="Prof. Johnson"),
+        current_enroll=30,
+        max_enroll=40,
     ),
     Class(
-        department="ENGL",
+        id=5,
+        department= Department(id=3, name="ENGL"),
         course_code="101",
         section_number="003",
         name="Composition and Rhetoric",
-        instructor="Prof. Davis",
-        current_enrollment=20,
-        max_enrollment=25,
+        instructor=Instructor(id=4, name="Prof. Davis"),
+        current_enroll=20,
+        max_enroll=25,
     ),
     Class(
-        department="PHYS",
+        id=6,
+        department= Department(id=4, name="PHYS"),
         course_code="210",
         section_number="004",
         name="Physics I",
-        instructor="Prof. Adams",
-        current_enrollment=28,
-        max_enrollment=30,
+        instructor=Instructor(id=5, name="Kennyt Adams"),
+        current_enroll=28,
+        max_enroll=30,
     ),
     Class(
-        department="CHEM",
+        id=7,
+        department= Department(id=5, name="CHEM"),
         course_code="220",
         section_number="005",
         name="Chemistry II",
-        instructor="Prof. Miller",
-        current_enrollment=22,
-        max_enrollment=25,
+        instructor=Instructor(id=6, name="Prof. Miller"),
+        current_enroll=22,
+        max_enroll=25,
+    ),
+    Class(
+        id=8,
+        department= Department(id=6, name="HIST"),
+        course_code="402",
+        section_number="03",
+        name="Reading Seminar",
+        instructor=Instructor(id=7, name="Prof. Washington"),
+        current_enroll=26,
+        max_enroll=30,
+    ),
+    Class(
+        id=9,
+        department= Department(id=7, name="BIO"),
+        course_code="312",
+        section_number="045",
+        name="Marine Biology",
+        instructor=Instructor(id=8, name="Prof. Emily"),
+        current_enroll=31,
+        max_enroll=33,
+    ),
+    Class(
+        id=10,
+        department= Department(id=8, name="BUSI"),
+        course_code="380",
+        section_number="125",
+        name="Business Thinking",
+        instructor=Instructor(id=9, name="Prof. Arvizu"),
+        current_enroll=60,
+        max_enroll=62,
     ),
 ]
 
 sample_students = [
-    Student(name="homer simpson", student_id="ab34223"),
-    Student(name="Philly J. Fry", student_id="D3456"),
-    Student(name="Angel Santoyo", student_id="LB23456"),
-    Student(name="David Carlson", student_id="A23456"),
-    Student(name="John Smith", student_id="J23456"),
-    Student(name="Steve Smith", student_id="Pf3456"),
-    Student(name="Bob Taylor", student_id="Bf3456"),
-    Student(name="Joe Schmoe", student_id="Af3456"),
-
+    Student(name="homer simpson", id="ab34223"),
+    Student(name="Philly J. Fry", id="D3456"),
+    Student(name="Angel Santoyo", id="LB23456"),
+    Student(name="David Carlson", id="A23456"),
+    Student(name="John Smith", id="J23456"),
+    Student(name="Steve Smith", id="Pf3456"),
+    Student(name="Bob Taylor", id="Bf3456"),
+    Student(name="Joe Schmoe", id="Af3456"),
+    Student(name="Dwanye Johnson", id="8SD2SM2"),
+    Student(name="John Cena", id="9ce8FJ1"),
 ]
-
+"""
 sample_registrar = [
     Registrar(name="John Smith", registar_id ="1")
 ]
-
+"""
 # populates db
 def populate_database():
     try:
@@ -100,8 +139,8 @@ def populate_database():
                     class_data.section_number,
                     class_data.name,
                     class_data.instructor,
-                    class_data.current_enrollment,
-                    class_data.max_enrollment,
+                    class_data.current_enroll,
+                    class_data.max_enroll,
                 ),
             )
 
@@ -111,16 +150,7 @@ def populate_database():
                 INSERT INTO students (name, student_id)
                 VALUES (?, ?)
                 """,
-                (student_data.name, student_data.student_id),
-            )
-
-        for registrar_data in sample_registrar:
-            cursor.execute(
-                """
-                INSERT INTO registrar (name, registrar_id)
-                VALUES (?, ?)
-                """,
-                (registrar_data.name, registrar_data.registrar_id),
+                (student_data.name, student_data.id),
             )
 
         conn.commit()
