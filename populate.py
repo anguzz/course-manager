@@ -12,6 +12,9 @@ sample_departments = [
     Department(id=3, name="ENGL"),
     Department(id=4, name="MATH"),
     Department(id=5, name="PHYS"),
+    Department(id=6, name="HIST"),
+    Department(id=7, name="BIOL"),
+    Department(id=8, name="GEOL"),
 ]
 
 sample_instructors = [
@@ -19,6 +22,11 @@ sample_instructors = [
     Instructor(id=2, name="John Smith"),
     Instructor(id=3, name="Jane Doe"),
     Instructor(id=4, name="Mike Hawk"),
+    Instructor(id=5, name="Margaret Hamilton"),
+    Instructor(id=6, name="Grace Hopper"),
+    Instructor(id=7, name="Ada Lovelace"),
+    Instructor(id=8, name="Bjarne Stroustrup"),
+    Instructor(id=9, name="Guido van Rossum"),
 ]
 
 sample_students = [
@@ -30,6 +38,11 @@ sample_students = [
     Student(id=6, name="Bob Taylor"),
     Student(id=7, name="Joe Schmoe"),
     Student(id=8, name="Michael Carey"),
+    Student(id=9, name="Kobe Bryant"),
+    Student(id=10, name="Cesar Gutierrez"),
+    Student(id=11, name="Lebron James"),
+    Student(id=12, name="Larry Page"),
+    Student(id=13, name="Sergey Brin"),
 ]
 
 sample_classes = [
@@ -66,7 +79,7 @@ sample_classes = [
     Class(
         id=4,
         name="Calculus I",
-        course_code="150",
+        course_code="150A",
         section_number="04",
         current_enroll=0,
         max_enroll=30,
@@ -75,13 +88,63 @@ sample_classes = [
     ),
     Class(
         id=5,
-        name="Calculus I",
-        course_code="101",
+        name="Calculus II",
+        course_code="150B",
         section_number="10",
         current_enroll=30,
         max_enroll=30,
         department_id=3,
         instructor_id=4,
+    ),
+    Class(
+        id=6,
+        name="World History",
+        course_code="181",
+        section_number="15",
+        current_enroll=15,
+        max_enroll=30,
+        department_id=6,
+        instructor_id=5,
+    ),
+    Class(
+        id=7,
+        name="Anatomy & Physiology",
+        course_code="211",
+        section_number="10",
+        current_enroll=21,
+        max_enroll=30,
+        department_id=7,
+        instructor_id=6,
+    ),
+    Class(
+        id=8,
+        name="Earth Science",
+        course_code="171",
+        section_number="03",
+        current_enroll=28,
+        max_enroll=30,
+        department_id=8,
+        instructor_id=7,
+    ),
+    Class(
+        id=9,
+        name="Advanced C++",
+        course_code="421",
+        section_number="09",
+        current_enroll=12,
+        max_enroll=30,
+        department_id=2,
+        instructor_id=8,
+    ),
+    Class(
+        id=10,
+        name="Python Programming",
+        course_code="222",
+        section_number="02",
+        current_enroll=27,
+        max_enroll=30,
+        department_id=2,
+        instructor_id=9,
     ),
 ]
 
@@ -100,6 +163,36 @@ sample_enrollments = [
         placement=31,
         class_id=5,
         student_id=4,
+    ),
+    Enrollment(
+        placement=24,
+        class_id=5,
+        student_id=5,
+    ),
+    Enrollment(
+        placement=1,
+        class_id=6,
+        student_id=6,
+    ),
+    Enrollment(
+        placement=13,
+        class_id=7,
+        student_id=7,
+    ),
+    Enrollment(
+        placement=21,
+        class_id=8,
+        student_id=8,
+    ),
+    Enrollment(
+        placement=14,
+        class_id=9,
+        student_id=9,
+    ),
+    Enrollment(
+        placement=4,
+        class_id=10,
+        student_id=10,
     ),
 ]
 
