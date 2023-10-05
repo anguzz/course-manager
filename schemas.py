@@ -23,10 +23,9 @@ class Class(BaseModel):
 class Student(BaseModel):
     id: int
     name: str
-    enrolled_classes: List[Class] = [] 
+    enrolled_classes: List[Class] = []
 
 class Enrollment(BaseModel):
     placement: int
     class_id: int
     student_id: int
-

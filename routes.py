@@ -23,8 +23,8 @@ def get_db():
         yield db
 
 #==========================================students==================================================
-  
-#creates a student   
+
+#creates a student
 @router.post("/students/", response_model=Student)
 def create_student(student_data: Student):
     for existing_student in students_db:
@@ -38,9 +38,9 @@ def create_student(student_data: Student):
 #USES DB
 @router.get("/student/classes")
 def get_available_classes(db: sqlite3.Connection = Depends(get_db)):
-    query = db.execute("""SELECT class.name, department.name, course_code, section_number, 
+    query = db.execute("""SELECT class.name, department.name, course_code, section_number,
                             instructor.name, current_enroll, max_enroll
-                            FROM class 
+                            FROM class
                                 INNER JOIN department ON department.id = class.department_id
                                 INNER JOIN instructor ON instructor.id = class.instructor_id
                             WHERE current_enroll < max_enroll""")
@@ -59,17 +59,17 @@ def get_available_classes(db: sqlite3.Connection = Depends(get_db)):
             "current_enroll": current_enroll,
             "max_enroll": max_enroll
         })
-    
+
     return {"Classes": classes}
 
 
-@router.post("/student/{id}/enroll", response_model=Union[Class, Dict[str, str]])  
+@router.post("/student/{id}/enroll", response_model=Union[Class, Dict[str, str]])
 def enroll_student_in_class(id: int, class_id: int):
     # get student and class
     student = next((std for std in students_db if std.id == id), None)
     target_class = next((cls for cls in classes_db if cls.id == class_id), None)
 
-    # error handle 
+    # error handle
     if student is None or target_class is None:
         raise HTTPException(status_code=404, detail="Student or Class not found")
 
@@ -84,7 +84,7 @@ def enroll_student_in_class(id: int, class_id: int):
 
     # add to enrolled class
     student.enrolled_classes.append(target_class)
-    return target_class  
+    return target_class
 
 
 
@@ -105,14 +105,14 @@ def drop_student_from_class(id: int, class_id: int):
 
     return target_class
 
-#==========================================wait list========================================== 
+#==========================================wait list==========================================
 
-@router.get("/student/{student_id}/waitlist", response_model=List[Enrollment]) 
+@router.get("/student/{student_id}/waitlist", response_model=List[Enrollment])
 def view_waiting_list(student_id: int):
     student_waitlist = [waitlist for waitlist in enroll_db if waitlist.student_id == student_id]
     return student_waitlist
 
-@router.put("/student/{student_id}/remove-from-waitlist/{class_id}") 
+@router.put("/student/{student_id}/remove-from-waitlist/{class_id}")
 def remove_from_waitlist(student_id: int, class_id: int):
     # Check if the student is on the waitlist for the specified class
     waitlist_entry = next((entry for entry in enroll_db if entry.student_id == student_id and entry.class_id == class_id), None)
@@ -131,7 +131,7 @@ def get_instructor_enrollment(instructor_id: int):
     instructor = next((inst for inst in instructors_db if inst.id == instructor_id), None)
     if not instructor:
         raise HTTPException(status_code=404, detail="Instructor not found")
-    
+
     enrolled_classes = [cls for cls in classes_db if cls.instructor and cls.instructor.id == instructor_id]
     return enrolled_classes
 
@@ -141,7 +141,7 @@ def get_instructor_dropped(instructor_id: int):
     instructor = next((inst for inst in instructors_db if inst.id == instructor_id), None)
     if not instructor:
         raise HTTPException(status_code=404, detail="Instructor not found")
-    
+
     dropped_classes = [cls for cls in classes_db if cls.instructor and cls.instructor.id == instructor_id and cls.current_enroll < cls.max_enroll]
     return dropped_classes
 
@@ -151,7 +151,7 @@ def instructor_drop_class(instructor_id: int, class_id: int):
     instructor = next((inst for inst in instructors_db if inst.id == instructor_id), None)
     if not instructor:
         raise HTTPException(status_code=404, detail="Instructor not found")
-    
+
     target_class = next((cls for cls in classes_db if cls.id == class_id and cls.instructor and cls.instructor.id == instructor_id), None)
     if not target_class:
         raise HTTPException(status_code=404, detail="Class not found or instructor is not teaching this class")
@@ -188,7 +188,7 @@ def create_class(class_data: Class, db: sqlite3.Connection = Depends(get_db)):
             detail={"type": type(e).__name__, "msg": str(e)}
         )
 
-@router.delete("/registrar/classes/{class_id}") 
+@router.delete("/registrar/classes/{class_id}")
 def remove_class(class_id: int):
     target_class = next((cls for cls in classes_db if cls.id == class_id), None)
     if target_class is None:
@@ -197,7 +197,7 @@ def remove_class(class_id: int):
     classes_db.remove(target_class)
     return {"message": "Class removed successfully"}
 
-@router.put("/registrar/classes/{class_id}/instructor/{instructor_id}") 
+@router.put("/registrar/classes/{class_id}/instructor/{instructor_id}")
 def change_instructor(class_id: int, instructor_id: int):
     target_class = next((cls for cls in classes_db if cls.id == class_id), None)
     if target_class is None:
